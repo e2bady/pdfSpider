@@ -13,7 +13,7 @@
 	<classpathentry kind="lib" path="libs/commons-logging-1.1.3.jar"/>
 	<classpathentry kind="lib" path="libs/fontbox-1.8.2.jar"/>
 	<classpathentry kind="lib" path="libs/jempbox-1.8.2.jar"/>
-	<classpathentry kind="lib" path="libs/jdbcimport.jar"/>
+	<classpathentry kind="lib" path="libs/jdbcimport-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
