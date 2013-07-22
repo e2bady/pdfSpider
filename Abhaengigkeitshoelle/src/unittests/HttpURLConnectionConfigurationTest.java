@@ -14,13 +14,15 @@ import model.http.urlconnection.ConnectionFactory;
 import model.http.urlconnection.HttpURLConnectionConfiguration;
 
 import org.junit.Test;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;;
 
 public class HttpURLConnectionConfigurationTest {
 	@Test
 	public final void testEstablishConnectionWithProxy() throws ProtocolException, MalformedURLException, IOException {
-		ProxySetter mock = Mockito.mock(ProxySetter.class);
-		Mockito.when(mock.setSystemsProxySettings()).thenReturn(Proxy.NO_PROXY);
+		ProxySetter mock = mock(ProxySetter.class);
+		when(mock.setSystemsProxySettings()).thenReturn(Proxy.NO_PROXY);
 		
 		ConnectionFactory connectionfactory = new HttpURLConnectionConfiguration(
 				mock, "GET", "UTF-8", "de");
@@ -37,9 +39,9 @@ public class HttpURLConnectionConfigurationTest {
 		URLConnection connection = connectionfactory.establishConnection(
 				mockFactory.getUrl());
 		
-		((HttpURLConnection) Mockito.verify(connection)).setRequestMethod( "GET" );
-		Mockito.verify(connection).setRequestProperty("User-Agent", connectionfactory.getAgent());
-        Mockito.verify(connection).setRequestProperty("Content-Language", "de");
+		((HttpURLConnection) verify(connection)).setRequestMethod( "GET" );
+		verify(connection).setRequestProperty("User-Agent", connectionfactory.getAgent());
+        verify(connection).setRequestProperty("Content-Language", "de");
         
         return mockFactory;
 	}

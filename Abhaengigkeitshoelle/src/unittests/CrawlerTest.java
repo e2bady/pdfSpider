@@ -16,7 +16,8 @@ import model.http.crawler.extractorjoint.ExtractLinks;
 import model.http.crawler.persistentbuffer.PersistentBuffer;
 
 import org.junit.Test;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 public class CrawlerTest {
 	private final URL deep1;
@@ -96,8 +97,8 @@ public class CrawlerTest {
 			add(deep3);
 		}};
 		Set<URL> end = Collections.emptySet();
-		final ExtractLinks extract = Mockito.mock(ExtractLinks.class);
-		Mockito.when(extract.get()).thenReturn(setreturn1, setreturn2, setreturn3, end);
+		final ExtractLinks extract = mock(ExtractLinks.class);
+		when(extract.get()).thenReturn(setreturn1, setreturn2, setreturn3, end);
 		factory = new ExtractorMock(extract);
 		
 		this.persistentBuffer = new PersistentBuffer() {

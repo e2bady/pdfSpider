@@ -12,7 +12,8 @@ import java.net.URLStreamHandler;
 
 import model.Lazy;
 
-import org.mockito.Mockito;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MockURLFactory extends Lazy {
 	private static final String DELIMITER = ";";
@@ -44,17 +45,16 @@ public class MockURLFactory extends Lazy {
 	private HttpURLConnection createMockConnection(final String filename) {
 		try {
 			final File file = new File("testdata/" + filename);
-			HttpURLConnection mockConnection = Mockito
-					.mock(HttpURLConnection.class);
+			HttpURLConnection mockConnection = mock(HttpURLConnection.class);
 			FileInputStream stream;
 			stream = new FileInputStream(file);
 			String contentValue = "someotherprefix2" + SEPERATOR + "b"
 					+ DELIMITER + TESTPREFIX + SEPERATOR + "c" + DELIMITER
 					+ "charset" + SEPERATOR + "UTF-8" + DELIMITER
 					+ "someotherprefix" + SEPERATOR + "a" + DELIMITER;
-			Mockito.when(mockConnection.getHeaderField("Content-Type"))
+			when(mockConnection.getHeaderField("Content-Type"))
 					.thenReturn(contentValue);
-			Mockito.when(mockConnection.getInputStream()).thenReturn(stream);
+			when(mockConnection.getInputStream()).thenReturn(stream);
 			return mockConnection;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

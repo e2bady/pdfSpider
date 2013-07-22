@@ -15,16 +15,19 @@ import model.http.urlconnector.URLConnector;
 
 import org.jsoup.nodes.Document;
 import org.junit.Test;
-import org.mockito.Mockito;
+
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.any;
 
 public class HttpGetImplTest {
 	@Test
 	public final void testHttpGetImpl() throws IOException {
-		IURLConnectionFactory mockfactory = Mockito.mock(IURLConnectionFactory.class);
-		IInputStreamConverterFactory mockConverterFactory = Mockito.mock(IInputStreamConverterFactory.class);
-		InputStreamConverter mockStreamConverter = Mockito.mock(InputStreamConverter.class);
-		Mockito.when(mockConverterFactory.create(Mockito.any(URLConnector.class))).thenReturn(mockStreamConverter);
-		Mockito.when(mockStreamConverter.convert()).thenReturn("<html><head></head><body>" +
+		IURLConnectionFactory mockfactory = mock(IURLConnectionFactory.class);
+		IInputStreamConverterFactory mockConverterFactory = mock(IInputStreamConverterFactory.class);
+		InputStreamConverter mockStreamConverter = mock(InputStreamConverter.class);
+		when(mockConverterFactory.create(any(URLConnector.class))).thenReturn(mockStreamConverter);
+		when(mockStreamConverter.convert()).thenReturn("<html><head></head><body>" +
 				"<a href=\"http://www.google.com\">google</a>" +
 				"<a href=\"/internallink.htm\">internal</a>" +
 				"<a href=\"./relative.htm\">internalrelativ</a>" +
