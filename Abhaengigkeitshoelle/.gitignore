@@ -1,2 +1,4 @@
 /export.db
 /myApp.log
+/bin/*
+/bin/.gitignore
