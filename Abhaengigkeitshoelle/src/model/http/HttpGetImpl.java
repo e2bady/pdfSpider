@@ -15,7 +15,8 @@ public class HttpGetImpl implements HttpGet {
 	private final IURLConnectionFactory urlConnector;
 	private final IInputStreamConverterFactory converterFactory;
 
-	public HttpGetImpl(IURLConnectionFactory urlConnector, IInputStreamConverterFactory converterFactory) {
+	public HttpGetImpl(final IURLConnectionFactory urlConnector, 
+			final IInputStreamConverterFactory converterFactory) {
 		this.urlConnector = urlConnector;
 		this.converterFactory = converterFactory;
 	}
@@ -23,7 +24,9 @@ public class HttpGetImpl implements HttpGet {
 	public Document get(final URL url) {
 		String convert = converterFactory.create(this.urlConnector.create(url)).convert();
 		LOG.debug("retrieved page: " + convert);
-		return Jsoup.parse(convert);
+		Document parse = Jsoup.parse(convert);
+		parse.setBaseUri(url.toExternalForm());
+		return parse;
 	}
 }
 

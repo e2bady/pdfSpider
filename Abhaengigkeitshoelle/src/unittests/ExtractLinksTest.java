@@ -26,7 +26,8 @@ public class ExtractLinksTest {
 	public final void testExtract() throws MalformedURLException {
 		Extractor<URL> links = setUpExtractLinks();
 		exception.expect(MalformedURLException.class);
-		links = new ExtractLinks(new MockHttpGet(), new URL("www.tks.de/page/index.html"));
+		URL url = new URL("www.tks.de/page/index.html");
+		links = new ExtractLinks(new MockHttpGet().get(url));
 		links.get();
 	}
 	@Test
@@ -36,14 +37,16 @@ public class ExtractLinksTest {
 	}
 	private Extractor<URL> setUpExtractLinks() throws MalformedURLException {
 		MockHttpGet mockHttpGet = new MockHttpGet();
-		Extractor<URL> links = new ExtractLinks(mockHttpGet, new URL("http://www.tks.de/page/index.html"));
+		URL url = new URL("http://www.tks.de/page/index.html");
+		Extractor<URL> links = new ExtractLinks(mockHttpGet.get(url));
 		links.get();
 		return links;
 	}
 	@Test
 	public final void testReanalysation() throws MalformedURLException {
 		MockHttpGet mockHttpGet = new MockHttpGet();
-		Extractor<URL> links = new ExtractLinks(mockHttpGet, new URL("http://www.tks.de/page/index.html"));
+		URL url = new URL("http://www.tks.de/page/index.html");
+		Extractor<URL> links = new ExtractLinks(mockHttpGet.get(url));
 		Set<URL> refs = links.get();
 		mockHttpGet.setMode(1);
 		Set<URL> refsReanalyse = links.get();

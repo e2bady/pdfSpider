@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import model.Lazy;
-import model.http.HttpGet;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,13 +17,11 @@ import org.slf4j.LoggerFactory;
 public class ExtractLinks extends Lazy implements Extractor<URL> {
 	private static final Logger log = (Logger) LoggerFactory
 			.getLogger(ExtractLinks.class);
-	private final URL url;
-	private final HttpGet httpcon;
+	private final Document document;
 	private Set<URL> links = null;
 	
-	public ExtractLinks(HttpGet httpCon, URL url) {
-		this.url = url;
-		this.httpcon = httpCon;
+	public ExtractLinks(Document httpCon) {
+		this.document = httpCon;
 	}
 	/* (non-Javadoc)
 	 * @see model.http.crawler.Extractor#getLinks()
@@ -37,16 +34,12 @@ public class ExtractLinks extends Lazy implements Extractor<URL> {
 	protected boolean load() {
 		if(links != null) return true;
 		links = new HashSet<URL>();
-		Document doc = this.httpcon.get(this.url);
-		log.debug("extracting links from: " + this.url.getProtocol() + "://" + this.url.getHost() + "\n" + doc.toString());
-		doc.setBaseUri(this.url.getProtocol() + "://" + this.url.getHost());
-		Elements select = doc.select("body a");
+		Elements select = this.document.select("body a");
 		for(Element e : select) {
-			String absUrl = e.attr("href");
+			String absUrl = e.absUrl("href");
 			log.error("checking url: " + absUrl);
 			try {
-				URL url = new URL(this.url, absUrl);
-				links.add(url);
+				links.add(new URL(absUrl));
 			} catch (MalformedURLException e1) {
 				log.error("url was not valid: " + absUrl);
 				e1.printStackTrace();

@@ -19,10 +19,12 @@ public class MockHttpGet implements HttpGet {
 					"<a href=\"/internallink.htm\">internal</a>" +
 					"<a href=\"./relative.htm\">internalrelativ</a>" +
 					"</body></html>");
+			doc.setBaseUri(url.toExternalForm());
 			return doc;
 		} else {
 			Document doc = Jsoup.parse("<html><head></head><body>" +
 					"</body></html>");
+			doc.setBaseUri(url.toExternalForm());
 			return doc;
 		}
 	}
