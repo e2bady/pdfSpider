@@ -35,13 +35,13 @@ public class MySQLDataWriter implements DataWriter {
 
 	public String get(URL origin) {
 		DSLContext dsl = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
-		return (dsl.select(Tables.DATA.DATA_).fetchOne()).getValue(Tables.DATA.DATA_);
+		return (dsl.select(Tables.DATA.DATA_).from(Tables.DATA).fetchOne()).getValue(Tables.DATA.DATA_);
 	}
 
 	public List<URL> ls() {
 		List<URL> lst = new LinkedList<URL>();
 		DSLContext dsl = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
-		for(Record r : (dsl.select(Tables.DATA.ORIGIN).fetch())) {
+		for(Record r : (dsl.select(Tables.DATA.ORIGIN).from(Tables.DATA).fetch())) {
 			String origin = r.getValue(Tables.DATA.ORIGIN);
 			try {
 				lst.add(new URL(origin));
