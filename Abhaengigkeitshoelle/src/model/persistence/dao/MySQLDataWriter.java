@@ -8,12 +8,16 @@ import java.util.List;
 import model.persistence.dbconfig.IDB;
 import model.persistence.jooq.Tables;
 
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.Record1;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.sun.javafx.beans.annotations.NonNull;
 
 public class MySQLDataWriter implements DataWriter {
 
@@ -33,9 +37,12 @@ public class MySQLDataWriter implements DataWriter {
 		}
 	}
 
-	public String get(URL origin) {
+	public String get(@NonNull URL origin) {
 		DSLContext dsl = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
-		return (dsl.select(Tables.DATA.DATA_).from(Tables.DATA).fetchOne()).getValue(Tables.DATA.DATA_);
+		Condition condition = Tables.DATA.ORIGIN.equalIgnoreCase(origin.toExternalForm());
+		Record1<String> fetchOne = dsl.select(Tables.DATA.DATA_).from(Tables.DATA)
+				.where(condition).fetchOne();
+		return fetchOne != null ? fetchOne.getValue(Tables.DATA.DATA_) : "";
 	}
 
 	public List<URL> ls() {

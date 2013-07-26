@@ -2,6 +2,9 @@ package controller;
 
 import java.net.URL;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import controller.factory.DbFactory;
 import model.persistence.dao.DataWriter;
 import model.persistence.dao.MySQLDataWriter;
@@ -12,7 +15,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class UI extends Application {
-	
+	private static final Logger log = (Logger) LoggerFactory.getLogger(UI.class);
 	private final DataWriter writer;
 	
 	public UI() {
@@ -27,12 +30,13 @@ public class UI extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		stage.setTitle("Table View Sample");
-		stage.setWidth(300);
-		stage.setHeight(500);
+		stage.setWidth(900);
+		stage.setHeight(800);
 		final TableView view = new TableView();
-		view.start(new SelectionChangeListener() {
+		view.setSelectionChangeListener(new SelectionChangeListener() {
 			@Override
 			public void selected(URL url) {
+				log.error("url: " + url);
 				view.setText(writer.get(url));
 			}
 		});
