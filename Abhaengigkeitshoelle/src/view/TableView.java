@@ -1,13 +1,7 @@
 package view;
 import java.net.URL;
-import java.nio.channels.SelectionKey;
 import java.util.Collection;
 
-import com.sun.corba.se.pept.transport.Acceptor;
-import com.sun.corba.se.pept.transport.Connection;
-import com.sun.corba.se.pept.transport.EventHandler;
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
-import com.sun.glass.events.KeyEvent;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
