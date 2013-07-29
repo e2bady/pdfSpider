@@ -1,10 +1,6 @@
 package controller;
 
 import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import controller.factory.DbFactory;
 import controller.factory.ModelFactory;
@@ -16,17 +12,14 @@ import model.persistence.dao.DataWriter;
 import model.persistence.dao.MySQLDataWriter;
 import model.persistence.dbconfig.IDB;
 import view.ResultView;
-import view.ResultViewListener;
 import view.TableView;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class UI extends Application {
-	private static final Logger log = (Logger) LoggerFactory.getLogger(UI.class);
-	private final DataWriter writer;
-	private final IDataRetriever retriever;
+	final DataWriter writer;
+	final IDataRetriever retriever;
 	
 	public UI() throws MalformedURLException {
 		IDB db = DbFactory.createDB();
@@ -52,29 +45,7 @@ public class UI extends Application {
 		stage.setWidth(900);
 		stage.setHeight(800);
 		final ResultView view = new TableView();
-		view.setSelectionChangeListener(new ResultViewListener() {
-			@Override
-			public void selected(URL url) {
-				log.error("url: " + url);
-				view.setText(writer.get(url).getContent());
-			}
-
-			@Override
-			public void start(final int n) {
-				log.error("start: " + n);
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						for(int i=0;i<n;i++) {
-							view.setProgression(i/n);
-							retriever.crawl(1);
-							view.clear();
-							view.add(writer.ls());
-						}
-					}
-				});
-			}
-		});
+		view.setSelectionChangeListener(new ResultController(writer, retriever, view));
 		stage.setScene((Scene) view);
 		stage.show();
 		

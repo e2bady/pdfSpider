@@ -23,6 +23,14 @@ public class SimpleResultParser extends Lazy implements Result {
 	}
 
 	@Override
+	public String toString() {
+		return "SimpleResultParser [getPublished()=" + getPublished()
+				+ ", getTitle()="
+				+ getTitle() + ", getType()=" + getType() + ", getCategory()="
+				+ getCategory() + "]";
+	}
+
+	@Override
 	public Date getPublished() {
 		this.lazyLoad();
 		return this.published;

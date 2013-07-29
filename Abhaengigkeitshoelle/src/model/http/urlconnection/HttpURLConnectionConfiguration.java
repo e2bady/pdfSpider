@@ -15,6 +15,8 @@ public class HttpURLConnectionConfiguration implements ConnectionFactory {
 	private final String requestcharset;
 	private final IProxySetter proxy;
 	private final String lang;
+
+	private boolean connect;
 	
 	public HttpURLConnectionConfiguration(IProxySetter proxy, String method, String requestcharset,
 			 String lang) {
@@ -23,6 +25,18 @@ public class HttpURLConnectionConfiguration implements ConnectionFactory {
 		this.proxy = proxy;
 		this.lang = lang;
 		this.method = method;
+	}
+	public HttpURLConnectionConfiguration(
+			IProxySetter proxy, 
+			String method, 
+			String requestcharset,
+			 String lang, boolean connect) {
+		super();
+		this.requestcharset = requestcharset;
+		this.proxy = proxy;
+		this.lang = lang;
+		this.method = method;
+		this.connect = connect;
 	}
 	/* (non-Javadoc)
 	 * @see model.http.ConnectionFactory#establishConnection(java.net.URL)
@@ -44,7 +58,8 @@ public class HttpURLConnectionConfiguration implements ConnectionFactory {
 		if(proxy != null && !url.getHost().contains("localhost")) {
 			proxy.proxyAuthenticate(connection);
 		}
-		connection.connect();
+		if(connect)
+			connection.connect();
 		return connection;
 	}
 	public String getAgent() {

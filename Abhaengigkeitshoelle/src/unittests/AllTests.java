@@ -10,6 +10,6 @@ import org.junit.runners.Suite.SuiteClasses;
 		HttpURLConnectionConfigurationTest.class,
 		ProxySetterTest.class, InputStream2StringTest.class,
 		PasswordAuthenticatorTest.class,
-		CrawlBufferTest.class, CrawlerTest.class, URLConnectorImplTest.class})
+		CrawlBufferTest.class, CrawlerTest.class, URLConnectorImplTest.class,SimpleResultParserTest.class})
 public class AllTests {
 }
