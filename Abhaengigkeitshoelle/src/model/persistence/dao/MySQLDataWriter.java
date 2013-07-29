@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
+import model.http.crawler.dataconverter.Result;
+import model.http.crawler.dataconverter.ResultFactory;
 import model.persistence.dbconfig.IDB;
 import model.persistence.jooq.Tables;
 
@@ -24,25 +26,27 @@ public class MySQLDataWriter implements DataWriter {
 	private static final Logger log = (Logger) LoggerFactory
 			.getLogger(MySQLDataWriter.class);
 	private final IDB db;
+	private ResultFactory resultFactory;
 	
-	public MySQLDataWriter(IDB db) {
+	public MySQLDataWriter(IDB db, ResultFactory resultFactory) {
 		this.db = db;
+		this.resultFactory = resultFactory;
 	}
 
-	public void add(URL origin, String data) {
+	public void add(URL origin, Result data) {
 		if(!exists(origin)) {
 			DSLContext dsl = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
 			dsl.insertInto(Tables.DATA, Tables.DATA.ORIGIN, Tables.DATA.DATA_)
-			.values(origin.toExternalForm(), data).execute();
+			.values(origin.toExternalForm(), data.getContent()).execute();
 		}
 	}
 
-	public String get(@NonNull URL origin) {
+	public Result get(@NonNull URL origin) {
 		DSLContext dsl = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
 		Condition condition = Tables.DATA.ORIGIN.equalIgnoreCase(origin.toExternalForm());
 		Record1<String> fetchOne = dsl.select(Tables.DATA.DATA_).from(Tables.DATA)
 				.where(condition).fetchOne();
-		return fetchOne != null ? fetchOne.getValue(Tables.DATA.DATA_) : "";
+		return resultFactory.getResult(fetchOne != null ? fetchOne.getValue(Tables.DATA.DATA_) : "");
 	}
 
 	public List<URL> ls() {

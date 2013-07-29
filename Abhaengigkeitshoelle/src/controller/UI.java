@@ -10,6 +10,7 @@ import controller.factory.DbFactory;
 import controller.factory.ModelFactory;
 import controller.factory.ProxyFactory;
 import model.http.crawler.IDataRetriever;
+import model.http.crawler.dataconverter.ResultFactoryImpl;
 import model.http.proxy.IProxySetter;
 import model.persistence.dao.DataWriter;
 import model.persistence.dao.MySQLDataWriter;
@@ -29,12 +30,16 @@ public class UI extends Application {
 	
 	public UI() throws MalformedURLException {
 		IDB db = DbFactory.createDB();
-		this.writer = new MySQLDataWriter(db);
+		ResultFactoryImpl resultfactory = new ResultFactoryImpl("BGH", "Recht");
+		this.writer = new MySQLDataWriter(db, resultfactory);
 		IProxySetter proxy = ProxyFactory.createProxy();
 		String crawlNamespace = "http://juris\\.bundesgerichtshof\\.de/cgi-bin/rechtsprechung/.*";
 		String dataNamespace = "http://juris\\.bundesgerichtshof\\.de/cgi-bin/rechtsprechung/document\\.py?.*\\.pdf";
 		String startAt = "http://juris.bundesgerichtshof.de/cgi-bin/rechtsprechung/list.py?Gericht=bgh&Art=en&Datum=Aktuell&Sort=12288";
-		retriever = ModelFactory.createMySQLHttpRetriever(proxy, db, crawlNamespace, dataNamespace, startAt);
+		
+		retriever = ModelFactory
+				.createMySQLHttpRetriever(proxy, db, crawlNamespace, 
+						dataNamespace, startAt, resultfactory);
 	}
 	
 	public static void main(String[] args) {
@@ -51,7 +56,7 @@ public class UI extends Application {
 			@Override
 			public void selected(URL url) {
 				log.error("url: " + url);
-				view.setText(writer.get(url));
+				view.setText(writer.get(url).getContent());
 			}
 
 			@Override

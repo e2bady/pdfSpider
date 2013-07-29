@@ -3,6 +3,7 @@ package controller;
 import java.net.MalformedURLException;
 
 import model.http.crawler.IDataRetriever;
+import model.http.crawler.dataconverter.ResultFactoryImpl;
 import model.http.proxy.IProxySetter;
 import model.persistence.dbconfig.IDB;
 import controller.factory.DbFactory;
@@ -22,7 +23,8 @@ public class App {
 		String dataNamespace = "http://juris\\.bundesgerichtshof\\.de/cgi-bin/rechtsprechung/document\\.py?.*\\.pdf";
 		String startAt = "http://juris.bundesgerichtshof.de/cgi-bin/rechtsprechung/list.py?Gericht=bgh&Art=en&Datum=Aktuell&Sort=12288";
 		
-		IDataRetriever retriever = ModelFactory.createMySQLHttpRetriever(proxy, db, crawlNamespace, dataNamespace, startAt);
+		IDataRetriever retriever = ModelFactory
+				.createMySQLHttpRetriever(proxy, db, crawlNamespace, dataNamespace, startAt, new ResultFactoryImpl("BGH", "Recht"));
 		try {
 			retriever.crawl(100);
 		} finally {

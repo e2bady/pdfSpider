@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Set;
 
 import model.http.crawler.dataconverter.DataConverter;
+import model.http.crawler.dataconverter.ResultFactory;
 import model.persistence.dao.DataWriter;
 
 import org.slf4j.Logger;
@@ -16,11 +17,13 @@ public class DataRetriever implements IDataRetriever {
 	private ICrawler crawler;
 	private DataWriter writer;
 	private DataConverter converter;
+	private ResultFactory resultfactory;
 	
-	public DataRetriever(ICrawler crawler, DataWriter writer, DataConverter converter) {
+	public DataRetriever(ICrawler crawler, DataWriter writer, DataConverter converter, ResultFactory resultfactory) {
 		this.crawler = crawler;
 		this.writer = writer;
 		this.converter = converter;
+		this.resultfactory = resultfactory;
 	}
 	/* (non-Javadoc)
 	 * @see model.http.crawler.IDataRetriever#crawl(int)
@@ -30,7 +33,7 @@ public class DataRetriever implements IDataRetriever {
 		for(URL url : urls) {
 			log.debug("found " + url.toExternalForm());
 			try {
-				this.writer.add(url, this.converter.convert(url));
+				this.writer.add(url, this.resultfactory.getResult(this.converter.convert(url)));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
