@@ -2,9 +2,11 @@ package model.http.crawler;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Set;
 
 import model.http.crawler.dataconverter.DataConverter;
+import model.http.crawler.dataconverter.Result;
 import model.http.crawler.dataconverter.ResultFactory;
 import model.persistence.dao.DataWriter;
 
@@ -15,11 +17,11 @@ public class DataRetriever implements IDataRetriever {
 	private static final Logger log = (Logger) LoggerFactory
 			.getLogger(DataRetriever.class);
 	private ICrawler crawler;
-	private DataWriter writer;
+	private Collection<DataWriter> writer;
 	private DataConverter converter;
 	private ResultFactory resultfactory;
 	
-	public DataRetriever(ICrawler crawler, DataWriter writer, DataConverter converter, ResultFactory resultfactory) {
+	public DataRetriever(ICrawler crawler, Collection<DataWriter> writer, DataConverter converter, ResultFactory resultfactory) {
 		this.crawler = crawler;
 		this.writer = writer;
 		this.converter = converter;
@@ -33,9 +35,10 @@ public class DataRetriever implements IDataRetriever {
 		for(URL url : urls) {
 			log.debug("found " + url.toExternalForm());
 			try {
-				this.writer.add(url, this.resultfactory.getResult(this.converter.convert(url)));
+				Result result = this.resultfactory.getResult(this.converter.convert(url));
+				for(DataWriter w : this.writer)
+					w.add(url, result);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
