@@ -59,7 +59,7 @@ public class Crawler implements ICrawler {
 				e.printStackTrace();
 			}
 		Set<URL> urls = new HashSet<URL>();
-		while (urls.size() < count && !this.crawlBuffer.isEmpty())
+		while (urls.size() < count && !this.dataBuffer.isEmpty())
 			urls.add(this.dataBuffer.poll());
 		return urls;
 	}

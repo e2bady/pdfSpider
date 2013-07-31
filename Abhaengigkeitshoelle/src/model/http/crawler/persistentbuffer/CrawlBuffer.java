@@ -42,6 +42,6 @@ public class CrawlBuffer implements PersistentBuffer {
 		}
 	}
 	public boolean isEmpty() {
-		return crawlBuffer.isEmpty() || (model != null ? model.isEmpty() : true);
+		return crawlBuffer.isEmpty() && (model != null ? model.isEmpty() : true);
 	}
 }
