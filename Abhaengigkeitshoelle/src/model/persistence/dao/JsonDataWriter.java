@@ -45,5 +45,10 @@ public class JsonDataWriter implements DataWriter {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public boolean contains(URL origin) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

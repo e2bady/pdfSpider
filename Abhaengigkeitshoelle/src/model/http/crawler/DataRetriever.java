@@ -20,26 +20,36 @@ public class DataRetriever implements IDataRetriever {
 	private Collection<DataWriter> writer;
 	private DataConverter converter;
 	private ResultFactory resultfactory;
-	
-	public DataRetriever(ICrawler crawler, Collection<DataWriter> writer, DataConverter converter, ResultFactory resultfactory) {
+
+	public DataRetriever(ICrawler crawler, Collection<DataWriter> writer,
+			DataConverter converter, ResultFactory resultfactory) {
 		this.crawler = crawler;
 		this.writer = writer;
 		this.converter = converter;
 		this.resultfactory = resultfactory;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see model.http.crawler.IDataRetriever#crawl(int)
 	 */
 	public void crawl(int iterations) {
-		Set<URL> urls = this.crawler.getNext(iterations);
-		for(URL url : urls) {
-			log.debug("found " + url.toExternalForm());
-			try {
-				Result result = this.resultfactory.getResult(this.converter.convert(url));
-				for(DataWriter w : this.writer)
-					w.add(url, result);
-			} catch (IOException e) {
-				e.printStackTrace();
+		while (iterations > 0) {
+			Set<URL> urls = this.crawler.getNext(iterations);
+			for (URL url : urls) {
+				log.debug("found " + url.toExternalForm());
+				try {
+					Result result = this.resultfactory.getResult(this.converter
+							.convert(url));
+					for (DataWriter w : this.writer)
+						if (w.contains(url)) {
+							w.add(url, result);
+							iterations--;
+						}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

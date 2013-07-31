@@ -68,4 +68,9 @@ public class MySQLDataWriter implements DataWriter {
 				.where(Tables.DATA.ORIGIN.equal(origin.toExternalForm()))
 				.fetchOne()) != null;
 	}
+
+	@Override
+	public boolean contains(URL origin) {
+		return this.exists(origin);
+	}
 }

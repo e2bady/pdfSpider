@@ -8,4 +8,5 @@ public interface CrawlerModel {
 	void add(URL url, boolean crawled);
 	URL getNotCrawled();
 	boolean isEmpty();
+	boolean contains(URL next);
 }

@@ -17,8 +17,10 @@ public class CrawlBuffer implements PersistentBuffer {
 	 * @see model.http.crawler.PersistentBuffer#add(java.net.URL)
 	 */
 	public void add(URL url) {
-		crawlBuffer.add(url);
-		if(model != null) model.add(url, false);
+		if(!model.contains(url)) {
+			crawlBuffer.add(url);
+			if(model != null) model.add(url, false);
+		}
 	}
 	/* (non-Javadoc)
 	 * @see model.http.crawler.PersistentBuffer#poll()

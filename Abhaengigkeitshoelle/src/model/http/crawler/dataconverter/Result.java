@@ -8,4 +8,5 @@ public interface Result {
 	String getTitle();
 	String getType();
 	String getCategory();
+	boolean isEmpty();
 }

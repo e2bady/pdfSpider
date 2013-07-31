@@ -42,6 +42,7 @@ final class ResultController implements ResultViewListener {
 			@Override
 			public void run() {
 				for(int i=0;i<n;i++) {
+					log.error("runnint: " + i + " / " + n);
 					view.setProgression(i/n);
 					retriever.crawl(1);
 					view.clear();

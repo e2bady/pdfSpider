@@ -9,4 +9,5 @@ public interface DataWriter {
 	void add(URL origin, Result data);
 	Result get(URL origin);
 	List<URL> ls();
+	boolean contains(URL origin);
 }

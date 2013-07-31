@@ -89,6 +89,12 @@ public class CrawlBufferTest {
 						// TODO Auto-generated method stub
 						
 					}
+
+					@Override
+					public boolean contains(URL next) {
+						// TODO Auto-generated method stub
+						return false;
+					}
 				};
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

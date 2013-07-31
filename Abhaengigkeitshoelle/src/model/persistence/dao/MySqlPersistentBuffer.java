@@ -11,8 +11,12 @@ import org.jooq.SQLDialect;
 import org.jooq.exception.DataAccessException;
 import org.jooq.exception.InvalidResultException;
 import org.jooq.impl.DSL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MySqlPersistentBuffer implements CrawlerModel {
+	private static final Logger log = (Logger) LoggerFactory
+			.getLogger(MySqlPersistentBuffer.class);
 	private IDB db;
 
 	public MySqlPersistentBuffer(IDB db) {
@@ -57,6 +61,9 @@ public class MySqlPersistentBuffer implements CrawlerModel {
 	public void update(URL url, boolean crawled) {
 		if(!this.exists(url)) addwoCheck(url, crawled);
 		else {
+			if(crawled == true) {
+				log.error("Updated " + url.toExternalForm());
+			}
 			DSLContext iscrawled = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
 			iscrawled.update(Tables.CRAWLED)
 					 .set(Tables.CRAWLED.CRAWLED_, boolean2Int(crawled))
@@ -88,5 +95,10 @@ public class MySqlPersistentBuffer implements CrawlerModel {
 		return !(DSL.using(this.db.getConnection(), SQLDialect.MYSQL)
 				.select(Tables.CRAWLED.IDCRAWLED).from(Tables.CRAWLED)
 				.fetch().size() > 0);
+	}
+
+	@Override
+	public boolean contains(URL next) {
+		return this.exists(next);
 	}
 }

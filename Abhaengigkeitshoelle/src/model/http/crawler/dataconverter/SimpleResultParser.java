@@ -12,6 +12,11 @@ public class SimpleResultParser extends Lazy implements Result {
 	private SubParser<Date> dateparser;
 	private SubParser<String> titleParser;
 	private String title;
+	
+	@Override
+	public boolean isEmpty() {
+		return content.equals("");
+	}
 
 	public SimpleResultParser(String content, String type, String category, 
 			SubParser<Date> dateparser, SubParser<String> titleParser) {

@@ -25,10 +25,11 @@ public class TableView extends Scene implements ResultView {
 	private final ProgressIndicator progressindicator;
 	private final ProgressBar progressBar;
 	private final TextField textbox;
-	private Button button;
+	private final Button button;
+	private final Label label;
 	public TableView() {
 		super(new Group());
-		final Label label = new Label("TableView");
+		label = new Label("TableView");
 		label.setFont(new Font("Arial", 20));
 		table.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<URL>() {
@@ -36,7 +37,7 @@ public class TableView extends Scene implements ResultView {
 					public void changed(
 							ObservableValue<? extends URL> observale,
 							URL oldValue, URL newValue) {
-						if(listener != null)
+						if(listener != null && newValue != null)
 							listener.selected(newValue);
 					}
 				});
@@ -60,7 +61,6 @@ public class TableView extends Scene implements ResultView {
 		this.button = new Button("Start Crawl");
 		this.button.setDisable(true);
 		this.button.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-			
 			@Override
 			public void handle(ActionEvent arg0) {
 				boolean noexception = checkIntValue();
@@ -108,6 +108,11 @@ public class TableView extends Scene implements ResultView {
 	@Override
 	public void add(URL item) {
 		table.getItems().add(item);
+		updateLabel();
+	}
+	
+	private void updateLabel() {
+		label.setText("TableView - " + table.getItems().size());
 	}
 
 	/* (non-Javadoc)
@@ -116,6 +121,7 @@ public class TableView extends Scene implements ResultView {
 	@Override
 	public void add(Collection<URL> items) {
 		table.getItems().addAll(items);
+		updateLabel();
 	}
 
 	/* (non-Javadoc)
@@ -124,6 +130,7 @@ public class TableView extends Scene implements ResultView {
 	@Override
 	public void remove(URL item) {
 		table.getItems().remove(item);
+		updateLabel();
 	}
 
 	/* (non-Javadoc)
@@ -132,6 +139,7 @@ public class TableView extends Scene implements ResultView {
 	@Override
 	public void remove(Collection<URL> item) {
 		table.getItems().removeAll(item);
+		updateLabel();
 	}
 
 	/* (non-Javadoc)
@@ -140,6 +148,7 @@ public class TableView extends Scene implements ResultView {
 	@Override
 	public void clear() {
 		table.getItems().clear();
+		updateLabel();
 	}
 
 	/* (non-Javadoc)
