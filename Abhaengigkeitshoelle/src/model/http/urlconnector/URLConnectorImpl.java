@@ -49,7 +49,11 @@ public class URLConnectorImpl extends Lazy implements URLConnector {
 			log.error("Connect threw IOException for URL: " + this.url != null ? this.url.toExternalForm() : "null");
 			if(log.isDebugEnabled())
 				e.printStackTrace();
-		}
+		} catch (Exception e) {
+			log.error("Connect threw IOException for URL: " + this.url != null ? this.url.toExternalForm() : "null");
+			if(log.isDebugEnabled())
+				e.printStackTrace();
+		} 
 		return false;
 	}
 	
