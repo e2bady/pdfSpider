@@ -117,6 +117,11 @@ public class CrawlerTest {
 			public boolean isEmpty() {
 				return queue.isEmpty();
 			}
+			@Override
+			public void add(URL url, boolean crawled) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 		this.persistentBuffer.add(new URL("http://www.example.org"));
 		this.crawler = new Crawler(this.persistentBuffer, factory, namespace, dataNamspace);

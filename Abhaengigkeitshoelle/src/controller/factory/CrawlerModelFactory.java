@@ -23,7 +23,7 @@ public class CrawlerModelFactory {
 		log.error("Importing Database into PersistentBuffer.");
 		if(!buffer.isEmpty() && DbFactory.importDB() && startAt != null) {
 			log.error("Adding startURL: " + startAt);
-			buffer.add(new URL(startAt));
+			buffer.add(new URL(startAt), true);
 		}
 		return buffer;
 	}
