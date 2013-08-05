@@ -48,7 +48,6 @@ public class TableView extends Scene implements ResultView {
 		area.setEditable(false);
 		progressBar = new ProgressBar(0.0);
 		progressindicator = new ProgressIndicator(0.0);
-		this.endProgress();
 		this.textbox = new TextField();
 		this.textbox.addEventHandler(javafx.scene.input.KeyEvent.KEY_TYPED, new javafx.event.EventHandler<javafx.scene.input.KeyEvent>() {
 			@Override
@@ -70,6 +69,7 @@ public class TableView extends Scene implements ResultView {
 		});
 		vbox.getChildren().addAll(label, table, area, progressBar, progressindicator, textbox, this.button);
 		((Group) this.getRoot()).getChildren().addAll(vbox);
+		this.endProgress();
 	}
 
 	/* (non-Javadoc)
@@ -86,6 +86,8 @@ public class TableView extends Scene implements ResultView {
 		progressindicator.setDisable(false);
 		progressBar.setProgress(0.0);
 		progressindicator.setProgress(0.0);
+		button.setDisable(true);
+		textbox.setDisable(true);
 	}
 	@Override
 	public void endProgress() {
@@ -93,6 +95,8 @@ public class TableView extends Scene implements ResultView {
 		progressindicator.setDisable(true);
 		progressBar.setProgress(0.0);
 		progressindicator.setProgress(0.0);
+		button.setDisable(false);
+		textbox.setDisable(false);
 	}
 	@Override
 	public void setProgression(double val) {
@@ -100,6 +104,8 @@ public class TableView extends Scene implements ResultView {
 		progressindicator.setDisable(false);
 		progressBar.setProgress(val);
 		progressindicator.setProgress(val);
+		button.setDisable(true);
+		textbox.setDisable(true);
 	}
 
 	/* (non-Javadoc)

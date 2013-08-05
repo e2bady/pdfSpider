@@ -32,4 +32,10 @@ public class InputStream2StringTest {
 		InputStreamConverter converter = new InputStream2String(new InputStreamMock(test, UTF_8), UTF_8);
 		assertEquals("Failure: converter did not convert the text right.", test.replace("\n", " ").replace("\r", " "), converter.convert());
 	}
+	//expects empty result.
+	@Test
+	public final void testNullResponse() {
+		InputStreamConverter converter = new InputStream2String(null, "UTF-8");
+		assertEquals("", converter.convert());
+	}
 }

@@ -23,7 +23,7 @@ public class InputStream2String implements InputStreamConverter {
 	}
 	public String convert() {
 		StringBuilder builder = new StringBuilder();
-		if (charset != null) {
+		if (charset != null && this.response != null) {
 			
 			BufferedReader reader = null;
 			try {
