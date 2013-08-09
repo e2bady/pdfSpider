@@ -2,7 +2,7 @@ package view;
 import java.net.URL;
 import java.util.Collection;
 
-
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -28,6 +28,8 @@ public class TableView extends Scene implements ResultView {
 	private final TextField searchbox;
 	private final Button button;
 	private final Label label;
+	private DebounceTask debounceTask = null;
+	
 	public TableView() {
 		super(new Group());
 		label = new Label("TableView");
@@ -36,7 +38,16 @@ public class TableView extends Scene implements ResultView {
 		this.searchbox.addEventHandler(javafx.scene.input.KeyEvent.KEY_TYPED, new javafx.event.EventHandler<javafx.scene.input.KeyEvent>() {
 			@Override
 			public void handle(javafx.scene.input.KeyEvent arg0) {
-				listener.query(searchbox.getText());
+				if(debounceTask != null)
+					debounceTask.cancel();
+				DebounceTask debounceTask = new DebounceTask(750, 
+						new Runnable() {
+							@Override
+							public void run() {
+								listener.query(searchbox.getText());
+							}
+				});
+				Platform.runLater(debounceTask);
 			}
 		});
 		
