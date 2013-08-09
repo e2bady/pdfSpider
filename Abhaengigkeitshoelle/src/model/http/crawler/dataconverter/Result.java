@@ -1,5 +1,6 @@
 package model.http.crawler.dataconverter;
 
+import java.net.URL;
 import java.util.Date;
 
 public interface Result {
@@ -9,4 +10,5 @@ public interface Result {
 	String getType();
 	String getCategory();
 	boolean isEmpty();
+	URL getOrigin();
 }

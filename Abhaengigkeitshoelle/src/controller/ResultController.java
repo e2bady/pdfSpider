@@ -1,6 +1,8 @@
 package controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,7 @@ import view.ResultView;
 import view.ResultViewListener;
 
 final class ResultController implements ResultViewListener {
-	static final Logger log = (Logger) LoggerFactory.getLogger(ResultController.class);
+	private static final Logger log = (Logger) LoggerFactory.getLogger(ResultController.class);
 	/**
 	 * 
 	 */
@@ -50,5 +52,16 @@ final class ResultController implements ResultViewListener {
 				}
 			}
 		});
+	}
+
+	@Override
+	public void query(String text) {
+		this.view.clear();
+		List<Result> rs = this.writer.get(text);
+		List<URL> us = new ArrayList<>(rs.size());
+		for(Result r : rs) {
+			us.add(r.getOrigin());
+		}
+		this.view.add(us);
 	}
 }

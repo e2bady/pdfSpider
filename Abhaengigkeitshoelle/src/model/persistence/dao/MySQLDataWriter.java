@@ -2,6 +2,7 @@ package model.persistence.dao;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import model.persistence.jooq.Tables;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.Record1;
+import org.jooq.Record2;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
@@ -44,9 +45,9 @@ public class MySQLDataWriter implements DataWriter {
 	public Result get(@NonNull URL origin) {
 		DSLContext dsl = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
 		Condition condition = Tables.DATA.ORIGIN.equalIgnoreCase(origin.toExternalForm());
-		Record1<String> fetchOne = dsl.select(Tables.DATA.DATA_).from(Tables.DATA)
+		Record2<String, String> fetchOne = dsl.select(Tables.DATA.ORIGIN, Tables.DATA.DATA_).from(Tables.DATA)
 				.where(condition).fetchOne();
-		return resultFactory.getResult(fetchOne != null ? fetchOne.getValue(Tables.DATA.DATA_) : "");
+		return resultFactory.getResult(fetchOne != null ? fetchOne.getValue(Tables.DATA.ORIGIN) : "",fetchOne != null ? fetchOne.getValue(Tables.DATA.DATA_) : "");
 	}
 
 	public List<URL> ls() {
@@ -72,5 +73,19 @@ public class MySQLDataWriter implements DataWriter {
 	@Override
 	public boolean contains(URL origin) {
 		return this.exists(origin);
+	}
+
+	@Override
+	public List<Result> get(String origin) {
+		DSLContext dsl = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
+		Condition condition = Tables.DATA.DATA_.like("%"+origin+"%");
+		org.jooq.Result<Record2<String, String>> fetchOne = dsl.select(Tables.DATA.ORIGIN, Tables.DATA.DATA_).from(Tables.DATA)
+				.where(condition).fetch();
+		List<Result> result = new ArrayList<>(fetchOne.size());
+		for(Record2<String, String> r : fetchOne)
+			result.add(resultFactory.getResult(
+					fetchOne != null ? r.getValue(Tables.DATA.ORIGIN) : "",
+					fetchOne != null ? r.getValue(Tables.DATA.DATA_) : ""));
+		return result;
 	}
 }

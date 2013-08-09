@@ -14,7 +14,18 @@ import org.junit.Test;
 public class SimpleResultParserTest {
 	private final String type = "ABC";
 	private final String category = "EDF";
+	private final String validURL = "http://www.foo.de/bar";
+	private final String invalidURL = "www.foo.de/bar";
 	private final ResultFactory factory = new ResultFactoryImpl(category, type);
+	
+	@Test
+	public void testinvalidURL() throws ParseException {
+		String date = "25. Juni 2013";
+		String title = "2 ARs 130/13";
+		String content = " blabla bla bla " + title + " am " + date + " blabla bla bla 1. Januar 2000";
+		Result parser = factory.getResult(invalidURL,content);
+		assertNull(parser);
+	}
 	
 	@Test
 	public void testJunLongLong() throws ParseException {
@@ -22,7 +33,7 @@ public class SimpleResultParserTest {
 		String title = "2 ARs 130/13";
 		String content = " blabla bla bla " + title + " am " + date + " blabla bla bla 1. Januar 2000";
 	
-		check(date, content, type, category, title);
+		check(validURL, date, content, type, category, title);
 	}
 	@Test
 	public void testJunShortLong() throws ParseException  {
@@ -30,7 +41,7 @@ public class SimpleResultParserTest {
 		String title = "V ZR 1/13";
 		String content = " blabla bla bla " + title + " am " + date + " blabla bla bla 1. Januar 2000";
 
-		check(date, content, type, category, title);
+		check(validURL, date, content, type, category, title);
 	}
 	@Test
 	public void testJunShortShort() throws ParseException {
@@ -38,7 +49,7 @@ public class SimpleResultParserTest {
 		String title = "4 StR 380/12";
 		String content = " blabla bla bla " + title + " am " + date + " blabla bla bla 1. Januar 2000";
 
-		check(date, content, type, category, title);
+		check(validURL, date, content, type, category, title);
 	}
 	@Test
 	public void testSepLongLong() throws ParseException {
@@ -46,7 +57,7 @@ public class SimpleResultParserTest {
 		String title = "AnwZ (B) 6/12";
 		String content = " blabla bla bla " + title + " am " + date + " blabla bla bla 1. Januar 2000";
 
-		check(date, content, type, category, title);
+		check(validURL, date, content, type, category, title);
 	}
 	@Test
 	public void testSepShortLong() throws ParseException {
@@ -54,7 +65,7 @@ public class SimpleResultParserTest {
 		String title = "I ZB 76/12";
 		String content = " blabla bla bla " + title + " am " + date + " blabla bla bla 1. Januar 2000";
 
-		check(date, content, type, category, title);
+		check(validURL, date, content, type, category, title);
 	}
 	@Test
 	public void testSepShortShort() throws ParseException {
@@ -62,7 +73,7 @@ public class SimpleResultParserTest {
 		String title = "2 StR 206/12";
 		String content = " blabla bla bla " + title + " am " + date + " blabla bla bla 1. Januar 2000";
 
-		check(date, content, type, category, title);
+		check(validURL, date, content, type, category, title);
 	}
 	@Test
 	public void testSepShortShortShort() throws ParseException {
@@ -70,11 +81,11 @@ public class SimpleResultParserTest {
 		String title = "5 StR 647/12";
 		String content = " blabla bla bla " + title + " am " + date + " blabla bla bla 1. Januar 2000";
 
-		check(date, content, type, category, title);
+		check(validURL, date, content, type, category, title);
 	}
-	private void check(String date, String content, String type, String category, String title)
+	private void check(String url,String date, String content, String type, String category, String title)
 			throws ParseException {
-		Result parser = factory.getResult(content);
+		Result parser = factory.getResult(url,content);
 		
 		assertEquals(category, parser.getCategory());
 		assertEquals(type, parser.getType());
@@ -83,3 +94,4 @@ public class SimpleResultParserTest {
 		assertEquals(title, parser.getTitle());
 	}
 }
+

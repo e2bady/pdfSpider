@@ -25,12 +25,21 @@ public class TableView extends Scene implements ResultView {
 	private final ProgressIndicator progressindicator;
 	private final ProgressBar progressBar;
 	private final TextField textbox;
+	private final TextField searchbox;
 	private final Button button;
 	private final Label label;
 	public TableView() {
 		super(new Group());
 		label = new Label("TableView");
 		label.setFont(new Font("Arial", 20));
+		this.searchbox = new TextField();
+		this.searchbox.addEventHandler(javafx.scene.input.KeyEvent.KEY_TYPED, new javafx.event.EventHandler<javafx.scene.input.KeyEvent>() {
+			@Override
+			public void handle(javafx.scene.input.KeyEvent arg0) {
+				listener.query(searchbox.getText());
+			}
+		});
+		
 		table.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<URL>() {
 					@Override
@@ -67,7 +76,7 @@ public class TableView extends Scene implements ResultView {
 					listener.start(parseIntValue());
 			}
 		});
-		vbox.getChildren().addAll(label, table, area, progressBar, progressindicator, textbox, this.button);
+		vbox.getChildren().addAll(label,searchbox, table, area, progressBar, progressindicator, textbox, this.button);
 		((Group) this.getRoot()).getChildren().addAll(vbox);
 		this.endProgress();
 	}

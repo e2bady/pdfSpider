@@ -1,10 +1,15 @@
 package model.http.crawler.dataconverter;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
 
-public class ResultFactoryImpl implements ResultFactory {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class ResultFactoryImpl implements ResultFactory {
+	private static final Logger log = (Logger) LoggerFactory.getLogger(ResultFactoryImpl.class);
 	private final String type;
 	private final String category;
 	private final String titleRegex;
@@ -29,13 +34,19 @@ public class ResultFactoryImpl implements ResultFactory {
 		this.dateInstance = dateInstance;
 	}
 	@Override
-	public Result getResult(String content) {
+	public Result getResult(String origin ,String content) {
 		SubParser<Date> dateparser = new DateParser(content, dateRegex, dateInstance);
 		SubParser<String> titleParser = new TitleParser(content, titleRegex);
-		Result parser = new SimpleResultParser(
-				content, type, category, 
-				dateparser,
-				titleParser);
+		Result parser = null;
+		try {
+			parser = new SimpleResultParser(
+					new URL(origin),
+					content, type, category, 
+					dateparser,
+					titleParser);
+		} catch (MalformedURLException e) {
+			log.error("Could not parse: " + origin);
+		}
 		return parser;
 	}
 }

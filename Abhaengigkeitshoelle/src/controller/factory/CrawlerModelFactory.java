@@ -21,7 +21,7 @@ public class CrawlerModelFactory {
 		log.error("Creating PersistentBuffer Object.");
 		PersistentBuffer buffer = new CrawlBuffer(mySqlPersistentBuffer);
 		log.error("Importing Database into PersistentBuffer.");
-		if(!buffer.isEmpty() && DbFactory.importDB() && startAt != null) {
+		if(!buffer.isEmpty() /*&& DbFactory.importDB()*/ && startAt != null) {
 			log.error("Adding startURL: " + startAt);
 			buffer.add(new URL(startAt), false);
 		}

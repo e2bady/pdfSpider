@@ -40,8 +40,7 @@ public class DataRetriever implements IDataRetriever {
 			for (URL url : urls) {
 				log.debug("found " + url.toExternalForm());
 				try {
-					Result result = this.resultfactory.getResult(this.converter
-							.convert(url));
+					Result result = this.resultfactory.getResult(url.toExternalForm(), this.converter.convert(url));
 					for (DataWriter w : this.writer)
 						if (w.contains(url)) {
 							w.add(url, result);

@@ -1,16 +1,18 @@
 package model.http.crawler.dataconverter;
 
+import java.net.URL;
 import java.util.Date;
 
 import model.Lazy;
 
 public class SimpleResultParser extends Lazy implements Result {
-	private String content;
+	private final URL origin;
+	private final String content;
 	private Date published;
-	private String category;
-	private String type;
-	private SubParser<Date> dateparser;
-	private SubParser<String> titleParser;
+	private final String category;
+	private final String type;
+	private final SubParser<Date> dateparser;
+	private final SubParser<String> titleParser;
 	private String title;
 	
 	@Override
@@ -18,8 +20,9 @@ public class SimpleResultParser extends Lazy implements Result {
 		return content.equals("");
 	}
 
-	public SimpleResultParser(String content, String type, String category, 
+	public SimpleResultParser(URL origin,String content, String type, String category, 
 			SubParser<Date> dateparser, SubParser<String> titleParser) {
+		this.origin = origin;
 		this.content = content;
 		this.type = type;
 		this.category = category;
@@ -61,11 +64,15 @@ public class SimpleResultParser extends Lazy implements Result {
 	public String getCategory() {
 		return this.category;
 	}
-
+	@Override
+	public URL getOrigin() {
+		return origin;
+	}
 	@Override
 	protected boolean load() {
 		this.published = this.dateparser.parse();
 		this.title = this.titleParser.parse();
 		return true;
 	}
+	
 }

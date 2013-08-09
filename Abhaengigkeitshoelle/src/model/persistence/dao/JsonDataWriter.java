@@ -50,5 +50,10 @@ public class JsonDataWriter implements DataWriter {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	public List<Result> get(String origin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
