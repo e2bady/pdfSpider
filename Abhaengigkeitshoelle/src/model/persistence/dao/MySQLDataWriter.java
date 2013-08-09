@@ -45,8 +45,11 @@ public class MySQLDataWriter implements DataWriter {
 	public Result get(@NonNull URL origin) {
 		DSLContext dsl = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
 		Condition condition = Tables.DATA.ORIGIN.equalIgnoreCase(origin.toExternalForm());
-		Record2<String, String> fetchOne = dsl.select(Tables.DATA.ORIGIN, Tables.DATA.DATA_).from(Tables.DATA)
-				.where(condition).fetchOne();
+		Record2<String, String> fetchOne = dsl
+				.select(Tables.DATA.ORIGIN, Tables.DATA.DATA_)
+				.from(Tables.DATA)
+				.where(condition)
+				.fetchOne();
 		return resultFactory.getResult(fetchOne != null ? fetchOne.getValue(Tables.DATA.ORIGIN) : "",fetchOne != null ? fetchOne.getValue(Tables.DATA.DATA_) : "");
 	}
 
