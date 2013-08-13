@@ -26,7 +26,7 @@ import model.persistence.dbconfig.IDB;
 public class ModelFactory {
 	private static final Logger log = (Logger) LoggerFactory.getLogger(ModelFactory.class);
 	public static IDataRetriever createMySQLHttpRetriever(IProxySetter proxy, IDB db,
-			String crawlNamespace, String dataNamespace, String startAt, ResultFactory resultfactory)
+			String crawlNamespace, String dataNamespace, String startAt, ResultFactory resultfactory, String type)
 			throws MalformedURLException {
 		log.error("Creating HttpURLConnectionConfiguration Object.");
 		ConnectionFactory connectionFactory = new HttpURLConnectionConfiguration(proxy, "GET", "UTF-8", "de");
@@ -37,7 +37,11 @@ public class ModelFactory {
 		List<DataWriter> lst = new LinkedList<>();
 		lst.add(writer);
 		log.error("Creating DataRetriever Object.");
-		IDataRetriever retriever = new DataRetriever(crawler, lst, new PdfToText(connectionFactory), resultfactory);
+		IDataRetriever retriever = new DataRetriever(
+				crawler, 
+				lst, 
+				new PdfToText(connectionFactory), 
+				resultfactory, type);
 		return retriever;
 	}
 

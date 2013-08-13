@@ -55,5 +55,10 @@ public class JsonDataWriter implements DataWriter {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public List<Result> getbyType(String type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

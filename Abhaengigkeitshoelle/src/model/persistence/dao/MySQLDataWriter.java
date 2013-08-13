@@ -15,6 +15,7 @@ import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record2;
+import org.jooq.Record3;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
@@ -50,7 +51,10 @@ public class MySQLDataWriter implements DataWriter {
 				.from(Tables.DATA)
 				.where(condition)
 				.fetchOne();
-		return resultFactory.getResult(fetchOne != null ? fetchOne.getValue(Tables.DATA.ORIGIN) : "",fetchOne != null ? fetchOne.getValue(Tables.DATA.DATA_) : "");
+		return resultFactory.getResult(
+				fetchOne != null ? fetchOne.getValue(Tables.DATA.ORIGIN) : "",
+				fetchOne != null ? fetchOne.getValue(Tables.DATA.DATA_) : "",
+				fetchOne != null ? fetchOne.getValue(Tables.DATA.TYPE) : "");
 	}
 
 	public List<URL> ls() {
@@ -80,15 +84,26 @@ public class MySQLDataWriter implements DataWriter {
 
 	@Override
 	public List<Result> get(String origin) {
-		DSLContext dsl = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
 		Condition condition = Tables.DATA.DATA_.like("%"+origin+"%");
-		org.jooq.Result<Record2<String, String>> fetchOne = dsl.select(Tables.DATA.ORIGIN, Tables.DATA.DATA_).from(Tables.DATA)
+		return getResults(condition);
+	}
+	@Override
+	public List<Result> getbyType(String type) {
+		Condition condition = Tables.DATA.TYPE.like(type);
+		return getResults(condition);
+	}
+
+	private List<Result> getResults(Condition condition) {
+		DSLContext dsl = DSL.using(this.db.getConnection(), SQLDialect.MYSQL);
+		
+		org.jooq.Result<Record3<String, String, String>> fetchOne = dsl.select(Tables.DATA.ORIGIN, Tables.DATA.DATA_, Tables.DATA.TYPE).from(Tables.DATA)
 				.where(condition).fetch();
 		List<Result> result = new ArrayList<>(fetchOne.size());
-		for(Record2<String, String> r : fetchOne)
+		for(Record3<String, String, String> r : fetchOne)
 			result.add(resultFactory.getResult(
 					fetchOne != null ? r.getValue(Tables.DATA.ORIGIN) : "",
-					fetchOne != null ? r.getValue(Tables.DATA.DATA_) : ""));
+					fetchOne != null ? r.getValue(Tables.DATA.DATA_) : "",
+					fetchOne != null ? r.getValue(Tables.DATA.TYPE) : ""));
 		return result;
 	}
 }

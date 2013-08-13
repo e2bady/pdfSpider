@@ -20,13 +20,15 @@ public class DataRetriever implements IDataRetriever {
 	private Collection<DataWriter> writer;
 	private DataConverter converter;
 	private ResultFactory resultfactory;
+	private String type;
 
 	public DataRetriever(ICrawler crawler, Collection<DataWriter> writer,
-			DataConverter converter, ResultFactory resultfactory) {
+			DataConverter converter, ResultFactory resultfactory, String type) {
 		this.crawler = crawler;
 		this.writer = writer;
 		this.converter = converter;
 		this.resultfactory = resultfactory;
+		this.type = type;
 	}
 
 	/*
@@ -40,7 +42,10 @@ public class DataRetriever implements IDataRetriever {
 			for (URL url : urls) {
 				log.debug("found " + url.toExternalForm());
 				try {
-					Result result = this.resultfactory.getResult(url.toExternalForm(), this.converter.convert(url));
+					Result result = this.resultfactory.getResult(
+							url.toExternalForm(), 
+							this.converter.convert(url), 
+							this.type);
 					for (DataWriter w : this.writer)
 						if (w.contains(url)) {
 							w.add(url, result);

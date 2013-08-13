@@ -16,14 +16,14 @@ public class SimpleResultParserTest {
 	private final String category = "EDF";
 	private final String validURL = "http://www.foo.de/bar";
 	private final String invalidURL = "www.foo.de/bar";
-	private final ResultFactory factory = new ResultFactoryImpl(category, type);
+	private final ResultFactory factory = new ResultFactoryImpl(category);
 	
 	@Test
 	public void testinvalidURL() throws ParseException {
 		String date = "25. Juni 2013";
 		String title = "2 ARs 130/13";
 		String content = " blabla bla bla " + title + " am " + date + " blabla bla bla 1. Januar 2000";
-		Result parser = factory.getResult(invalidURL,content);
+		Result parser = factory.getResult(invalidURL,content, type);
 		assertNull(parser);
 	}
 	
@@ -85,7 +85,7 @@ public class SimpleResultParserTest {
 	}
 	private void check(String url,String date, String content, String type, String category, String title)
 			throws ParseException {
-		Result parser = factory.getResult(url,content);
+		Result parser = factory.getResult(url,content, type);
 		
 		assertEquals(category, parser.getCategory());
 		assertEquals(type, parser.getType());

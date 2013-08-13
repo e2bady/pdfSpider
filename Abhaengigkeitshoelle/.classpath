@@ -10,13 +10,13 @@
 	<classpathentry kind="lib" path="libs/mockito-core-1.9.5.jar"/>
 	<classpathentry kind="lib" path="libs/jfxrt.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="libs/mysqlcon.jar"/>
+	<classpathentry kind="lib" path="libs/jooq.jar"/>
+	<classpathentry kind="lib" path="libs/jooqcodegen.jar"/>
+	<classpathentry kind="lib" path="libs/jooqmeta.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="libs/jdbcimport-bin.jar"/>
-	<classpathentry kind="lib" path="libs/jooq-3.1.0.jar"/>
-	<classpathentry kind="lib" path="libs/jooq-codegen-3.1.0.jar"/>
-	<classpathentry kind="lib" path="libs/jooq-meta-3.1.0.jar"/>
 	<classpathentry kind="lib" path="libs/pdfbox-1.8.2.jar"/>
-	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.21-bin.jar"/>
 	<classpathentry kind="lib" path="libs/commons-logging-1.1.3.jar"/>
 	<classpathentry kind="lib" path="libs/fontbox-1.8.2.jar"/>
 	<classpathentry kind="lib" path="libs/jempbox-1.8.2.jar"/>

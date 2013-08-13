@@ -24,7 +24,9 @@ public class App {
 		String startAt = "http://juris.bundesgerichtshof.de/cgi-bin/rechtsprechung/list.py?Gericht=bgh&Art=en&Datum=Aktuell&Sort=12288";
 		
 		IDataRetriever retriever = ModelFactory
-				.createMySQLHttpRetriever(proxy, db, crawlNamespace, dataNamespace, startAt, new ResultFactoryImpl("BGH", "Recht"));
+				.createMySQLHttpRetriever(proxy, db, 
+						crawlNamespace, dataNamespace, 
+						startAt, new ResultFactoryImpl("Recht"), "BGH");
 		try {
 			retriever.crawl(100);
 		} finally {
