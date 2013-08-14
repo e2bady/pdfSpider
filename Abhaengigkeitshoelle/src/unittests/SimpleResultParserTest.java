@@ -16,7 +16,7 @@ public class SimpleResultParserTest {
 	private final String category = "EDF";
 	private final String validURL = "http://www.foo.de/bar";
 	private final String invalidURL = "www.foo.de/bar";
-	private final ResultFactory factory = new ResultFactoryImpl(category);
+	private final ResultFactory factory = new ResultFactoryImpl(category, "([\\d]+ )?[ARs|V ZR|StR|AnwZ (B)|I ZB|StR]+ [\\d\\/]+", "([\\d]{1,2}\\. [a-zA-Z]+ [\\d]{4}|[\\d]{1,2}\\. [a-zA-Z]+ [\\d]{2})");
 	
 	@Test
 	public void testinvalidURL() throws ParseException {

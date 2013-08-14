@@ -15,11 +15,11 @@ public class ResultFactoryImpl implements ResultFactory {
 	private final String dateRegex;
 	private final DateFormat dateInstance;
 
-	public ResultFactoryImpl(String category) {
+	public ResultFactoryImpl(String category, String titleRegex, String dateRegex) {
 		super();
 		this.category = category;
-		this.titleRegex = "([\\d]+ )?[ARs|V ZR|StR|AnwZ (B)|I ZB|StR]+ [\\d\\/]+";
-		this.dateRegex = "([\\d]{1,2}\\. [a-zA-Z]+ [\\d]{4}|[\\d]{1,2}\\. [a-zA-Z]+ [\\d]{2})";
+		this.titleRegex = titleRegex;
+		this.dateRegex = dateRegex;
 		this.dateInstance = DateFormat.getDateInstance(DateFormat.LONG);
 	}
 	public ResultFactoryImpl(String category, String titleRegex,

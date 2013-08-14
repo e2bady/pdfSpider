@@ -23,7 +23,7 @@ public class UI extends Application {
 	
 	public UI() throws MalformedURLException {
 		IDB db = DbFactory.createDB();
-		ResultFactoryImpl resultfactory = new ResultFactoryImpl("Recht");
+		ResultFactoryImpl resultfactory = new ResultFactoryImpl("Recht", "([\\d]+ )?[ARs|V ZR|StR|AnwZ (B)|I ZB|StR]+ [\\d\\/]+", "([\\d]{1,2}\\. [a-zA-Z]+ [\\d]{4}|[\\d]{1,2}\\. [a-zA-Z]+ [\\d]{2})");
 		this.writer = new MySQLDataWriter(db, resultfactory);
 		IProxySetter proxy = ProxyFactory.createProxy();
 		String crawlNamespace = "http://juris\\.bundesgerichtshof\\.de/cgi-bin/rechtsprechung/.*";

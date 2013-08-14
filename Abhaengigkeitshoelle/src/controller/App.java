@@ -26,7 +26,7 @@ public class App {
 		IDataRetriever retriever = ModelFactory
 				.createMySQLHttpRetriever(proxy, db, 
 						crawlNamespace, dataNamespace, 
-						startAt, new ResultFactoryImpl("Recht"), "BGH");
+						startAt, new ResultFactoryImpl("Recht", "([\\d]+ )?[ARs|V ZR|StR|AnwZ (B)|I ZB|StR]+ [\\d\\/]+", "([\\d]{1,2}\\. [a-zA-Z]+ [\\d]{4}|[\\d]{1,2}\\. [a-zA-Z]+ [\\d]{2})"), "BGH");
 		try {
 			retriever.crawl(100);
 		} finally {
