@@ -17,6 +17,7 @@ public class App {
 	 * @throws  
 	 */
 	public static void main(String[] args) throws MalformedURLException {
+		String crawlNamespace = "http://juris\\.bundesgerichtshof\\.de/cgi-bin/rechtsprechung/.*";
 		String dataNamespace = "http://juris\\.bundesgerichtshof\\.de/cgi-bin/rechtsprechung/document\\.py?.*\\.pdf";
 		String startAt = "http://juris.bundesgerichtshof.de/cgi-bin/rechtsprechung/list.py?Gericht=bgh&Art=en&Datum=Aktuell&Sort=12288";
 		String titleRegex = "([\\d]+ )?[ARs|V ZR|StR|AnwZ (B)|I ZB|StR]+ [\\d\\/]+";
@@ -26,7 +27,6 @@ public class App {
 		
 		IProxySetter proxy = ProxyFactory.createProxy();
 		IDB db = DbFactory.createDB();
-		String crawlNamespace = "http://juris\\.bundesgerichtshof\\.de/cgi-bin/rechtsprechung/.*";
 		
 		IDataRetriever retriever = ModelFactory
 				.createMySQLHttpRetriever(proxy, db, 
